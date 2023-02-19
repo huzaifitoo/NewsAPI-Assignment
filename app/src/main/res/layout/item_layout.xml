@@ -1,48 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginVertical="10dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"/>
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="welcome to the breaking news"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-        <TextView
-            android:id="@+id/tv_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="John Paul"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="welcome to the breaking news"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:text=" India beat Australia by six wickets in the second test to take a 2-0 lead in the four-match series in Delhi today. Skipper Rohit Sharma (31) and Cheteshwar Pujara, who made 31 not out, helped the hosts reach the 115-run victory target with more than two days to spare."
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="John Paul"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_publishedAt"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="John Paul"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
