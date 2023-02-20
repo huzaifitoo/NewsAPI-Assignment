@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         layoutManager = LinearLayoutManager(this)
-
+        //pagination
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
-
+        //SearchView
         binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
@@ -69,13 +69,14 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
-
+        //Swipe to Refresh
         binding.swipeToRefresh.setOnRefreshListener {
             gettingData()
         }
         gettingData()
     }
 
+    // Getting Data from API
     fun gettingData() {
 
         binding.swipeToRefresh.isRefreshing = true
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    //SearchView
     private fun filterList(query: String?) {
 
         if (query != null) {
