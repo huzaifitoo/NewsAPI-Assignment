@@ -3,7 +3,10 @@ package com.example.newsapi
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.text.method.TextKeyListener.clear
 import android.util.Log
+import android.view.View
 import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +14,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.example.newsapi.databinding.ActivityMainBinding
 import retrofit2.Call
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
@@ -22,13 +27,35 @@ class MainActivity : AppCompatActivity() {
     private var mArticle: ArrayList<ArticlesItem> = arrayListOf()
     private lateinit var searchView: SearchView
     private lateinit var adapter: NewsAdapter
+    private lateinit var layoutManager: LinearLayoutManager
 
+    private var page = 1
+    private var totalPage: Int = 1
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
+
+        layoutManager = LinearLayoutManager(this)
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                Log.d("MainActivity", "onScrollChange: ")
+                val visibleItemCount = layoutManager.childCount
+                val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
+                val total = adapter.itemCount
+                if (!isLoading && page < totalPage) {
+                    if (visibleItemCount + pastVisibleItem >= total) {
+                        page++
+                        gettingData()
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
 
         binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -41,19 +68,16 @@ class MainActivity : AppCompatActivity() {
                 filterList(newText)
                 return true
             }
-
         })
 
         binding.swipeToRefresh.setOnRefreshListener {
-
             gettingData()
-            //Toast.makeText(this, "refreshing ", Toast.LENGTH_SHORT).show()
-
         }
-          gettingData()
+        gettingData()
     }
 
-    fun gettingData(){
+    fun gettingData() {
+
         binding.swipeToRefresh.isRefreshing = true
 
         val res = RetrofitInstance.getInstance()
@@ -79,7 +103,8 @@ class MainActivity : AppCompatActivity() {
                         val customTabsIntent = builder.build()
                         customTabsIntent.launchUrl(
                             this@MainActivity,
-                            Uri.parse(mArticle.get(position).url))
+                            Uri.parse(mArticle.get(position).url)
+                        )
                     }
                 })
                 Log.d("Data", response.body().toString())
@@ -92,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun filterList(query: String?) {
 
         if (query != null) {
